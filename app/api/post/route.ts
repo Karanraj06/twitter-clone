@@ -4,8 +4,6 @@ import { z } from 'zod';
 import { getAuthSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
-export async function GET(request: NextRequest) {}
-
 export async function POST(request: NextRequest) {
   const session = await getAuthSession();
   const { body } = await request.json();

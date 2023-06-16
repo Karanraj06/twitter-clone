@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -30,6 +31,7 @@ const defaultValues: Partial<PostFormValues> = {
 
 export function PostForm() {
   const session = useSession();
+  const router = useRouter();
 
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postFormSchema),
@@ -40,10 +42,13 @@ export function PostForm() {
   async function onSubmit(data: PostFormValues) {
     try {
       await axios.post('/api/post', data);
+
       toast({
         title: 'Post created',
         description: 'Thanks for posting!',
       });
+
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Something went wrong!',
