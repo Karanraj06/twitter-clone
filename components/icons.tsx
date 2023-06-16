@@ -1,4 +1,4 @@
-import { LucideProps, MessageSquare, User } from 'lucide-react';
+import { LucideProps, User } from 'lucide-react';
 
 export const Icons = {
   user: User,
@@ -6,18 +6,19 @@ export const Icons = {
     <svg
       {...props}
       data-testid='geist-icon'
-      fill='none'
       height={24}
       shapeRendering='geometricPrecision'
-      stroke='currentColor'
+      stroke='#0ea4e9r'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth='1.5'
       viewBox='0 0 24 24'
       width={24}
     >
-      <path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z' />
-      <path d='M9 22V12h6v10' />
+      <path
+        fill='#0ea4e9'
+        d='M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z'
+      />
     </svg>
   ),
   google: (props: LucideProps) => (
@@ -56,5 +57,4 @@ export const Icons = {
       </g>
     </svg>
   ),
-  commentReply: MessageSquare,
 };

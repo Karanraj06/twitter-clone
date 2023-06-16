@@ -7,12 +7,11 @@ import { signIn } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { Icons } from '@/components/icons';
 
-import { Icons } from './icons';
+interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
+const AuthForm: FC<AuthFormProps> = ({ className, ...props }) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -48,4 +47,4 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   );
 };
 
-export default UserAuthForm;
+export default AuthForm;

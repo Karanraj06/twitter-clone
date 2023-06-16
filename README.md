@@ -1,4 +1,4 @@
-# next-template
+# twitter-clone
 
 ## Features
 

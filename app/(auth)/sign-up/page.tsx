@@ -3,7 +3,7 @@ import { ChevronLeft } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import SignIn from '@/components/sign-in';
+import SignUp from '@/components/sign-up';
 
 export default function Page() {
   return (
@@ -20,7 +20,7 @@ export default function Page() {
           Home
         </Link>
 
-        <SignIn />
+        <SignUp />
       </div>
     </div>
   );

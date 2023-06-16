@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { PostForm } from '@/components/post';
 
-interface PageProps {}
-
-const Page: FC<PageProps> = ({}) => {
-  return <div>Page</div>;
-};
-
-export default Page;
+export default async function Page() {
+  return (
+    <>
+      <PostForm />
+    </>
+  );
+}

@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
-
-import { Icons } from './icons';
-import { buttonVariants } from './ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import UserNav from '@/components/user-nav';
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -15,13 +15,16 @@ export default async function Navbar() {
         <Link href='/' className='flex items-center gap-2'>
           <Icons.logo className='h-8 w-8 sm:h-6 sm:w-6' />
           <p className='hidden text-sm font-medium text-zinc-700 md:block'>
-            next-template
+            Twitter
           </p>
         </Link>
         {session?.user ? (
-          "You're logged in"
+          <UserNav user={session.user} />
         ) : (
-          <Link href='/sign-in' className={buttonVariants()}>
+          <Link
+            href='/sign-in'
+            className={buttonVariants({ variant: 'twitter' })}
+          >
             Sign In
           </Link>
         )}
