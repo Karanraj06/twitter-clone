@@ -24,12 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className='light bg-white text-slate-900 antialiased'>
-      <body
-        className={cn(
-          'min-h-screen bg-slate-50 pt-12 antialiased',
-          inter.className
-        )}
-      >
+      <body className={cn('min-h-screen pt-12 antialiased', inter.className)}>
         <Provider>
           <Navbar />
           {modal}

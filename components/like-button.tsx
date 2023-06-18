@@ -1,9 +1,8 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { set } from 'date-fns';
 import { useSession } from 'next-auth/react';
 
 import { Icons } from '@/components/icons';
@@ -31,9 +30,10 @@ const LikeButton: FC<LikeButtonProps> = ({ postId }) => {
 
   async function handleOnLike() {
     if (status !== 'authenticated') {
-      redirect('/sign-in');
+      router.push('/sign-in');
+      return;
     }
-    console.log(session.user.id, postId, isLiked);
+
     await axios.post('/api/like', {
       userId: session.user.id,
       postId: postId,

@@ -75,6 +75,7 @@ export function PostForm() {
                       form.handleSubmit(onSubmit)();
                     }
                   }}
+                  autoFocus={true}
                   className='resize-none'
                   {...field}
                 />
