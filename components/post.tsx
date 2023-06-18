@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -30,7 +29,7 @@ const defaultValues: Partial<PostFormValues> = {
 };
 
 export function PostForm() {
-  const session = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   const form = useForm<PostFormValues>({
@@ -57,7 +56,7 @@ export function PostForm() {
     }
   }
 
-  if (session.status !== 'authenticated') return null;
+  if (status !== 'authenticated') return null;
 
   return (
     <Form {...form}>
@@ -69,14 +68,17 @@ export function PostForm() {
             <FormItem>
               <FormControl>
                 <Textarea
-                  placeholder='What are you thinking?'
+                  placeholder='What is happening?!'
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      form.handleSubmit(onSubmit)();
+                    }
+                  }}
                   className='resize-none'
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Tweet your thoughts to the world
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

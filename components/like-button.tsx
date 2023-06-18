@@ -1,29 +1,61 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { FC, useEffect, useState } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import axios from 'axios';
+import { set } from 'date-fns';
+import { useSession } from 'next-auth/react';
 
 import { Icons } from '@/components/icons';
 
 interface LikeButtonProps {
   postId: string;
-  toggleLike: (postId: string, liked: boolean) => Promise<void>;
 }
 
-const LikeButton: FC<LikeButtonProps> = ({ postId, toggleLike }) => {
+const LikeButton: FC<LikeButtonProps> = ({ postId }) => {
   const router = useRouter();
-  const [liked, setLiked] = useState(false);
+  const { data: session, status } = useSession();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get('/api/like', {
+        params: { postId: postId, userId: session?.user.id },
+      });
+      const data = response.data;
+      if ('likes' in data) setLikes(data.likes as number);
+      if ('isLiked' in data) setIsLiked(data.isLiked as boolean);
+    })();
+  });
+
+  async function handleOnLike() {
+    if (status !== 'authenticated') {
+      redirect('/sign-in');
+    }
+    console.log(session.user.id, postId, isLiked);
+    await axios.post('/api/like', {
+      userId: session.user.id,
+      postId: postId,
+      isLiked: isLiked,
+    });
+
+    setLikes(likes + (isLiked ? -1 : 1));
+    setIsLiked(!isLiked);
+  }
 
   return (
-    <button type='button'>
+    <button
+      type='button'
+      onClick={handleOnLike}
+      className='flex items-center justify-start gap-2'
+    >
       <Icons.heart
-        className={liked ? 'fill-pink-500' : 'fill-none'}
-        onClick={async () => {
-          await toggleLike(postId, liked);
-          setLiked(!liked);
-          router.refresh();
-        }}
+        className={isLiked ? 'fill-[#f91880] stroke-[#f91880]' : 'fill-none'}
       />
+      <span className={isLiked ? 'text-[#f91880]' : 'text-slate-500'}>
+        {likes}
+      </span>
     </button>
   );
 };

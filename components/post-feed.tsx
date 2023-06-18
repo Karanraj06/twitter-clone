@@ -13,19 +13,6 @@ interface PostsProps {
 }
 
 const PostFeed: FC<PostsProps> = ({ posts }) => {
-  async function toggleLike(postId: string, liked: boolean) {
-    'use server';
-
-    await prisma.post.update({
-      where: {
-        id: postId,
-      },
-      data: {
-        likes: liked ? { decrement: 1 } : { increment: 1 },
-      },
-    });
-  }
-
   return posts.map((post, index) => (
     <div
       key={post.id}
@@ -46,10 +33,7 @@ const PostFeed: FC<PostsProps> = ({ posts }) => {
           </div>
         </div>
         <p className='whitespace-pre-wrap'>{post.body}</p>
-        <div className='flex items-center justify-start gap-2'>
-          <LikeButton postId={post.id} toggleLike={toggleLike} />
-          <span>{post.likes}</span>
-        </div>
+        <LikeButton postId={post.id} />
       </div>
     </div>
   ));
