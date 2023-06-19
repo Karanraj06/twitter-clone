@@ -50,7 +50,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  bio       String?
+  bio       String?  @db.MediumText
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
   Post      Post[]
@@ -59,7 +59,7 @@ model User {
 
 model Post {
   id        String   @id @default(uuid())
-  body      String
+  body      String   @db.MediumText
   userId    String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

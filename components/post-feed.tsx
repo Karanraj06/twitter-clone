@@ -34,7 +34,7 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
     ['infinite-query'],
     async ({ pageParam = 1 }) => {
       const { data } = await axios.get(
-        `/api/post?limit=6&page=${pageParam}&userId=${userId}`
+        `/api/post?limit=10&page=${pageParam}&userId=${userId}`
       );
       return data as (Post & { user: User })[];
     },
@@ -85,16 +85,27 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
               </Link>
               <div className='grid place-content-center text-sm'>
                 <div className='flex'>
-                  <div>{post.user.name}</div>
+                  <div>
+                    <Link
+                      href={`/${post.user.username}`}
+                      className='hover:underline'
+                    >
+                      {post.user.name}
+                    </Link>
+                  </div>
                   <div>{post.user.verified && <Icons.verified />}</div>
                 </div>
-                <div className='text-slate-500'>@{post.user.username}</div>
+                <div className='text-slate-500'>
+                  <Link href={`/${post.user.username}`}>
+                    @{post.user.username}
+                  </Link>
+                </div>
               </div>
               <div className='ml-4 text-sm text-slate-500'>
                 {formatDistanceToNowStrict(new Date(post.createdAt))}
               </div>
             </div>
-            <p className='whitespace-pre-wrap'>{post.body}</p>
+            <p className='whitespace-pre-wrap break-all'>{post.body}</p>
             <LikeButton postId={post.id} />
           </div>
         </div>

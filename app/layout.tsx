@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: {
     default: 'Twitter',
-    template: '%s | Twitter',
+    template: '%s / Twitter',
   },
   description: 'A Twitter clone built with Next.js',
 };

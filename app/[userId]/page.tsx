@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
     where: {
       userId: user?.id,
     },
-    take: 6,
+    take: 10,
   });
 
   return (
