@@ -79,3 +79,13 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+::selection {
+  background-color: #79ffe1;
+  color: #000;
+}
+
+::-moz-selection {
+  background-color: #79ffe1;
+  color: #000;
+}
