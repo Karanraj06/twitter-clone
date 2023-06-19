@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useIntersection } from '@mantine/hooks';
 import { Post, User } from '@prisma/client';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -11,13 +12,16 @@ import { Loader2 } from 'lucide-react';
 import LikeButton from '@/components/like-button';
 import UserAvatar from '@/components/user-avatar';
 
+import { Icons } from './icons';
+
 interface PostsProps {
   initialPosts: (Post & {
     user: User;
   })[];
+  userId?: string;
 }
 
-const PostFeed: FC<PostsProps> = ({ initialPosts }) => {
+const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
   const [hydrated, setHydrated] = useState<boolean>(false);
   const lastPostRef = useRef<HTMLDivElement>(null);
   const { ref, entry } = useIntersection<HTMLDivElement>({
@@ -29,7 +33,9 @@ const PostFeed: FC<PostsProps> = ({ initialPosts }) => {
   >(
     ['infinite-query'],
     async ({ pageParam = 1 }) => {
-      const { data } = await axios.get(`/api/post?limit=6&page=${pageParam}`);
+      const { data } = await axios.get(
+        `/api/post?limit=6&page=${pageParam}&userId=${userId}`
+      );
       return data as (Post & { user: User })[];
     },
     {
@@ -68,14 +74,22 @@ const PostFeed: FC<PostsProps> = ({ initialPosts }) => {
         >
           <div className='flex flex-col items-start gap-4'>
             <div className='flex items-center justify-start gap-2'>
-              <UserAvatar
-                user={{
-                  name: post.user.name || null,
-                  image: post.user.image || null,
-                }}
-                className='h-8 w-8'
-              />
-              <div>{post.user.name}</div>
+              <Link href={`/${post.user.username}`}>
+                <UserAvatar
+                  user={{
+                    name: post.user.name || null,
+                    image: post.user.image || null,
+                  }}
+                  className='h-10 w-10'
+                />
+              </Link>
+              <div className='grid place-content-center text-sm'>
+                <div className='flex'>
+                  <div>{post.user.name}</div>
+                  <div>{post.user.verified && <Icons.verified />}</div>
+                </div>
+                <div className='text-slate-500'>@{post.user.username}</div>
+              </div>
               <div className='ml-4 text-sm text-slate-500'>
                 {formatDistanceToNowStrict(new Date(post.createdAt))}
               </div>

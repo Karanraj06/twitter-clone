@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   try {
-    console.log('2');
     const { userId, postId, isLiked } = z
       .object({
         userId: z.string(),
@@ -52,7 +51,6 @@ export async function POST(request: NextRequest) {
       .parse(body);
 
     if (!isLiked) {
-      console.log('3');
       await prisma.like.create({
         data: {
           userId,
@@ -60,7 +58,6 @@ export async function POST(request: NextRequest) {
         },
       });
     } else {
-      console.log('4');
       await prisma.like.delete({
         where: {
           userId_postId: {

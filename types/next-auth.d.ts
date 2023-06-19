@@ -15,6 +15,8 @@ declare module 'next-auth' {
     user: User & {
       id: UserId;
       username?: string | null;
+      bio?: string | null;
+      verified: boolean;
     };
   }
 }

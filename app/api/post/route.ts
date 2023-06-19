@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 import { getAuthSession } from '@/lib/auth';
@@ -8,15 +9,25 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
 
   try {
-    const { limit, page } = z
+    const { limit, page, userId } = z
       .object({
         limit: z.string(),
         page: z.string(),
+        userId: z.string().nullish().optional(),
       })
       .parse({
         limit: url.searchParams.get('limit'),
         page: url.searchParams.get('page'),
+        userId: url.searchParams.get('userId'),
       });
+
+    let whereClause: Prisma.PostWhereInput = {};
+
+    if (userId) {
+      whereClause = {
+        userId,
+      };
+    }
 
     const posts = await prisma.post.findMany({
       include: {
@@ -25,6 +36,7 @@ export async function GET(request: NextRequest) {
       orderBy: {
         createdAt: 'desc',
       },
+      where: whereClause,
       take: parseInt(limit),
       skip: (parseInt(page) - 1) * parseInt(limit),
     });

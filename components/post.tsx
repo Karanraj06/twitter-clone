@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -31,6 +32,7 @@ const defaultValues: Partial<PostFormValues> = {
 export function PostForm() {
   const { status } = useSession();
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postFormSchema),
@@ -56,6 +58,21 @@ export function PostForm() {
     }
   }
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === '/') {
+        e.preventDefault();
+        textareaRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   if (status !== 'authenticated') return null;
 
   return (
@@ -75,9 +92,10 @@ export function PostForm() {
                       form.handleSubmit(onSubmit)();
                     }
                   }}
-                  autoFocus={true}
+                  autoFocus
                   className='resize-none'
                   {...field}
+                  ref={textareaRef}
                 />
               </FormControl>
               <FormMessage />
