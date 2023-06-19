@@ -2,6 +2,18 @@
 
 ## Features
 
+- Styled using Tailwind CSS and [shadcn/ui](https://ui.shadcn.com/)
+
+- ORM using Prisma
+
+- Authentication using NextAuth.js
+
+- Infinite Scrolling + Pagination for posts
+
+- Like functionality
+
+- Manage profiles
+
 ## To-do List
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

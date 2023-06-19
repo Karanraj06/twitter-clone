@@ -4,14 +4,18 @@ import Provider from '@/components/provider';
 
 import '@/styles/globals.css';
 
+import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'Twitter',
+export const metadata: Metadata = {
+  title: {
+    default: 'Twitter',
+    template: '%s | Twitter',
+  },
   description: 'A Twitter clone built with Next.js',
 };
 
@@ -24,12 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className='light bg-white text-slate-900 antialiased'>
-      <body
-        className={cn(
-          'min-h-screen bg-slate-50 pt-12 antialiased',
-          inter.className
-        )}
-      >
+      <body className={cn('min-h-screen pt-12 antialiased', inter.className)}>
         <Provider>
           <Navbar />
           {modal}

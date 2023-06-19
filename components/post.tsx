@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -11,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -30,8 +30,9 @@ const defaultValues: Partial<PostFormValues> = {
 };
 
 export function PostForm() {
-  const session = useSession();
+  const { status } = useSession();
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postFormSchema),
@@ -57,7 +58,22 @@ export function PostForm() {
     }
   }
 
-  if (session.status !== 'authenticated') return null;
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === '/') {
+        e.preventDefault();
+        textareaRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
+  if (status !== 'authenticated') return null;
 
   return (
     <Form {...form}>
@@ -69,14 +85,19 @@ export function PostForm() {
             <FormItem>
               <FormControl>
                 <Textarea
-                  placeholder='What are you thinking?'
+                  placeholder='What is happening?!'
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      form.handleSubmit(onSubmit)();
+                    }
+                  }}
+                  autoFocus
                   className='resize-none'
                   {...field}
+                  ref={textareaRef}
                 />
               </FormControl>
-              <FormDescription>
-                Tweet your thoughts to the world
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
