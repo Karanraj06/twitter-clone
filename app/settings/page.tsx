@@ -76,7 +76,7 @@ export default function Page() {
 
       toast({
         title: 'Success',
-        description: 'Your username has been updated.',
+        description: 'Your profile has been updated.',
       });
 
       router.refresh();

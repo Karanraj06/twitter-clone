@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    let responseData = { likes: likes, isLiked: false };
+    let responseData = { likes: likes, liked: false };
 
     if (session) {
       const like = await prisma.like.findUnique({
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         },
       });
 
-      responseData.isLiked = !!like;
+      responseData.liked = !!like;
     }
 
     return NextResponse.json(responseData);
@@ -42,15 +42,15 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   try {
-    const { userId, postId, isLiked } = z
+    const { userId, postId, liked } = z
       .object({
         userId: z.string(),
         postId: z.string(),
-        isLiked: z.boolean(),
+        liked: z.boolean(),
       })
       .parse(body);
 
-    if (!isLiked) {
+    if (liked) {
       await prisma.like.create({
         data: {
           userId,

@@ -7,6 +7,8 @@ declare module 'next-auth/jwt' {
   interface JWT {
     id: UserId;
     username?: string | null;
+    bio?: string | null;
+    verified: boolean;
   }
 }
 

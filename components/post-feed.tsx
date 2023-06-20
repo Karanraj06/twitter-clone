@@ -9,7 +9,7 @@ import axios from 'axios';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 
-import LikeButton from '@/components/like-button';
+import Heart from '@/components/heart';
 import UserAvatar from '@/components/user-avatar';
 
 import { Icons } from './icons';
@@ -74,7 +74,7 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
         >
           <div className='flex flex-col items-start gap-4'>
             <div className='flex items-center justify-start gap-2'>
-              <Link href={`/${post.user.username}`}>
+              <Link href={`/user/${post.user.username}`}>
                 <UserAvatar
                   user={{
                     name: post.user.name || null,
@@ -87,7 +87,7 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
                 <div className='flex'>
                   <div>
                     <Link
-                      href={`/${post.user.username}`}
+                      href={`/user/${post.user.username}`}
                       className='hover:underline'
                     >
                       {post.user.name}
@@ -96,7 +96,7 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
                   <div>{post.user.verified && <Icons.verified />}</div>
                 </div>
                 <div className='text-slate-500'>
-                  <Link href={`/${post.user.username}`}>
+                  <Link href={`/user/${post.user.username}`}>
                     @{post.user.username}
                   </Link>
                 </div>
@@ -106,12 +106,12 @@ const PostFeed: FC<PostsProps> = ({ initialPosts, userId }) => {
               </div>
             </div>
             <p className='whitespace-pre-wrap break-all'>{post.body}</p>
-            <LikeButton postId={post.id} />
+            <Heart postId={post.id} />
           </div>
         </div>
       ))}
       {isFetchingNextPage && (
-        <div className='flex justify-center'>
+        <div className='flex h-10 items-start justify-center'>
           <Loader2 className='h-6 w-6 animate-spin text-zinc-500' />
         </div>
       )}

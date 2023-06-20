@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
   return (
     <div className='space-y-6'>
       <div>
-        <div className='grid place-items-center text-lg font-medium'>
+        <div className='grid place-items-start text-lg font-medium'>
           <UserAvatar
             user={{
               name: user?.name || null,
@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
             <div>{user?.verified && <Icons.verified />}</div>
           </div>
           <p className='text-sm text-muted-foreground'>@{user?.username}</p>
-          <p className='mt-2 text-sm'>{user?.bio}</p>
+          <p className='mt-2 whitespace-pre-wrap text-sm'>{user?.bio}</p>
         </div>
       </div>
       <Separator />
