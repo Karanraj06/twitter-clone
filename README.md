@@ -2,7 +2,7 @@
 
 ## Features
 
-- Styled using Tailwind CSS and [shadcn/ui](https://ui.shadcn.com/)
+- Styled using Tailwind CSS
 
 - ORM using Prisma
 
@@ -15,6 +15,14 @@
 - Manage profiles
 
 ## To-do List
+
+- [ ] Can use swr cache invalidation
+
+- [ ] Update home page on post creation
+
+- [ ] Comment functionality
+
+- [ ] Image upload
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
